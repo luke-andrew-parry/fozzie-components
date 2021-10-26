@@ -20,7 +20,6 @@ const CheckoutNonFulfillableError = 'checkout-update-failure';
 const CheckoutCustomerGetSuccess = 'checkout-customer-get-success';
 const CheckoutCustomerGetFailure = 'checkout-customer-get-failure';
 const CheckoutMounted = 'checkout-mounted';
-const CheckoutVerifyAge = 'checkout-verify-age';
 
 export default {
     CheckoutSuccess,
@@ -44,6 +43,5 @@ export default {
     CheckoutCustomerGetSuccess,
     CheckoutCustomerGetFailure,
     CheckoutMounted,
-    CheckoutVerifyAge,
     CheckoutNonFulfillableError
 };

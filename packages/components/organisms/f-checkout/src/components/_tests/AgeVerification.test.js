@@ -307,11 +307,6 @@ describe('AgeVerification', () => {
                     // Assert
                     expect(updateDateOfBirthSpy).toHaveBeenCalledWith(date);
                 });
-
-                it('should emit not `CheckoutVerifyAge`', () => {
-                    // Assert
-                    expect(wrapper.emitted(EventNames.CheckoutVerifyAge)).toBeUndefined();
-                });
             });
 
             describe('when `isValidAge` returns `false`', () => {
