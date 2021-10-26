@@ -291,6 +291,16 @@ describe('CheckoutModule', () => {
             });
         });
 
+        describe(`${UPDATE_DATE_OF_BIRTH} ::`, () => {
+            it('should update state with received value', () => {
+                // Arrange & Act
+                mutations[UPDATE_DATE_OF_BIRTH](state, { dateOfBirth });
+
+                // Assert
+                expect(state.customer.mobileNumber).toEqual(dateOfBirth);
+            });
+        });
+
         describe(`${UPDATE_BASKET_DETAILS} ::`, () => {
             it('should update state with received value', () => {
                 // Arrange & Act
