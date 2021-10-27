@@ -37,7 +37,8 @@ import {
     UPDATE_MESSAGE,
     UPDATE_ADDRESS,
     UPDATE_PHONE_NUMBER,
-    UPDATE_DATE_OF_BIRTH
+    UPDATE_DATE_OF_BIRTH,
+    CLEAR_DOB_ERROR
 } from '../mutation-types';
 
 const { actions, mutations } = CheckoutModule;
@@ -291,16 +292,6 @@ describe('CheckoutModule', () => {
             });
         });
 
-        describe(`${UPDATE_DATE_OF_BIRTH} ::`, () => {
-            it('should update state with received value', () => {
-                // Arrange & Act
-                mutations[UPDATE_DATE_OF_BIRTH](state, { dateOfBirth });
-
-                // Assert
-                expect(state.customer.mobileNumber).toEqual(dateOfBirth);
-            });
-        });
-
         describe(`${UPDATE_BASKET_DETAILS} ::`, () => {
             it('should update state with received value', () => {
                 // Arrange & Act
@@ -391,6 +382,20 @@ describe('CheckoutModule', () => {
             });
         });
 
+        describe(`${CLEAR_DOB_ERROR} :: `, () => {
+           it('should remove the `DOB_REQUIRED_ISSUE` and the `AGE_VERIFICATION_ISSUE` errors', () => {
+               // Arrange
+               state.errors.push({code: 'DOB_REQUIRED_ISSUE'});
+               state.errors.push({code: 'AGE_VERIFICATION_ISSUE'});;
+
+               // Act
+               mutations[CLEAR_DOB_ERROR](state, {});
+
+               // Assert
+               expect(state.errors).toEqual(defaultState.errors);
+           });
+        });
+
         it.each([
             [UPDATE_FULFILMENT_ADDRESS, 'address', address],
             [UPDATE_FULFILMENT_TIME, 'time', time],
@@ -399,6 +404,7 @@ describe('CheckoutModule', () => {
             [UPDATE_USER_NOTE, 'userNote', userNote],
             [UPDATE_MESSAGE, 'message', message]
         ])('%s :: should update state with received value', (mutationName, propertyName, propertyValue) => {
+
             // Arrange & Act
             mutations[mutationName](state, propertyValue);
 
@@ -1170,11 +1176,21 @@ describe('CheckoutModule', () => {
             });
         });
 
+        describe('updateDateOfBirth :: ', () => {
+            it('should call `UPDATE_DATE_OF_BIRTH` and `CLEAR_DOB_ERROR`.', () => {
+                // Act
+                updateDateOfBirth(context, dateOfBirth);
+
+                // Assert
+                expect(commit).toHaveBeenCalledWith('UPDATE_DATE_OF_BIRTH', dateOfBirth);
+                expect(commit).toHaveBeenCalledWith('CLEAR_DOB_ERROR', {});
+            });
+        });
+
         it.each([
             [setAuthToken, UPDATE_AUTH, authToken],
             [updateAddressDetails, UPDATE_FULFILMENT_ADDRESS, address],
             [updateUserNote, UPDATE_USER_NOTE, userNote],
-            [updateDateOfBirth, UPDATE_DATE_OF_BIRTH, dateOfBirth],
             [updateMessage, UPDATE_MESSAGE, message]
         ])('%s should call %s mutation with passed value', (action, mutation, value) => {
             // Act

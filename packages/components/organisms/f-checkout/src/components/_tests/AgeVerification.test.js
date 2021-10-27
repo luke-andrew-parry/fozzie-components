@@ -8,7 +8,6 @@ import {
     createStore,
     defaultCheckoutState
 } from './helpers/setup';
-import EventNames from '../../event-names';
 
 jest.mock('../../services/daysInMonth');
 
